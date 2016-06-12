@@ -1,4 +1,0 @@
-#!/bin/bash
-
-supervisorctl restart dovecot
-exit 0
