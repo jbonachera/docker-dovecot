@@ -6,10 +6,10 @@ if [ -n "$IMAP_TLS_DOMAIN" ]; then
   echo "Waiting for SSL certificates to appear.."
   for TLS_DOMAIN in ${IMAP_TLS_DOMAIN}; do
     while [ true ]; do
-      if [ -r "/etc/dovecot/tls/${TLS_DOMAIN}/fullchain.pem" ]; then
+      if [ -r "/etc/dovecot/tls/certs/${TLS_DOMAIN}/fullchain.pem" ]; then
         break
       fi
-      echo "/etc/dovecot/tls/${TLS_DOMAIN}/fullchain.pem does not exist. waiting."
+      echo "/etc/dovecot/tls/certs/${TLS_DOMAIN}/fullchain.pem does not exist. waiting."
       sleep 2
     done
   done
