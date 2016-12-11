@@ -18,10 +18,12 @@ service imap-login {
   inet_listener imap {
     port = 143
   }
+  {% if  IMAP_TLS_DOMAIN %}
   inet_listener imaps {
     port = 993
     ssl = yes
   }
+  {% endif %}
 
   # Number of connections to handle before starting a new process. Typically
   # the only useful values are 0 (unlimited) or 1. 1 is more secure, but 0

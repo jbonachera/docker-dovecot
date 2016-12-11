@@ -1,0 +1,22 @@
+#!/bin/bash
+
+AUTH_DIR="/etc/dovecot/auth"
+
+askvar(){
+  read -rp "${1}: " a
+  echo "$a"
+}
+
+silent_askvar(){
+  read -rsp "${1}: " a
+  echo "$a"
+}
+
+domain=${1:-$(askvar Domain)}
+user=${2:-$(askvar Username)}
+pw=${3:-$(silent_askvar "Password (won't echo)")}
+
+pw=$(doveadm pw -p $pw -s SHA512-CRYPT)
+
+[ -d $AUTH_DIR/$domain ] ||  mkdir -p $AUTH_DIR/$domain
+grep "$user:" $AUTH_DIR/$domain/users >/dev/null 2>/dev/null || echo "$user:$pw::::" >> $AUTH_DIR/$domain/users
