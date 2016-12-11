@@ -10,10 +10,10 @@ chmod 750 /srv/vmail
 
 if [ -n "$SEED_USERS" ]; then
     for user_data in $SEED_USERS; do
-        domain=$(echo $user_data | cut -f 1 -d : )
-        user=$(echo $user_data | cut -f 2 -d : )
-        password=$(echo $user_data | cut -f 3 -d :)
-        /usr/local/bin/dove-adduser $domain $user $password
+        domain="$(echo $user_data | cut -f 1 -d : )"
+        user="$(echo $user_data | cut -f 2 -d : )"
+        password="$(echo $user_data | cut -f 3 -d :)"
+        /usr/local/bin/dove-adduser "$domain" "$user" "$password"
     done
 fi
 
