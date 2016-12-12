@@ -1,11 +1,15 @@
-FROM fedora
+FROM jbonachera/arch
 MAINTAINER Julien BONACHERA <julien@bonachera.fr>
 ENTRYPOINT /sbin/entrypoint.sh
-COPY conf.d/* /etc/dovecot/conf.d
-RUN dnf install -y dovecot dovecot-pigeonhole dovecot-mysql
-VOLUME ["/srv/vmail"]
+EXPOSE 24 143 993 4190
+VOLUME ["/srv/vmail", "/etc/dovecot/auth"]
+HEALTHCHECK --interval=10s --timeout=3s CMD doveadm service status || exit 1
+RUN pacman -S --noconfirm dovecot pigeonhole && \
+    mv /etc/dovecot/dovecot.conf.sample /etc/dovecot/dovecot.conf
 RUN groupadd -g 5000 vmail
 RUN useradd -r vmail -u 5000 -g 5000
-EXPOSE 24 143 993 4190
+COPY conf.d/* /etc/dovecot/conf.d/
+COPY templates /etc/dovecot/templates/
+COPY scripts/* /usr/local/bin/
 ADD entrypoint.sh /sbin/entrypoint.sh
 
