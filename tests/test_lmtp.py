@@ -11,6 +11,7 @@ def test_lmtp_delivery(Docker):
     for user, domain, password in Docker.args.get('users'):
         lmtp = smtplib.LMTP(Docker.get_ip(), 24)
         lmtp.sendmail('test@example.invalid', user+"@"+domain, "test")
+        lmtp.sendmail('test@example.invalid', user+"+plusaddressing@"+domain, "test")
 
 @pytest.mark.lmtp
 @pytest.mark.parametrize("Docker", [
